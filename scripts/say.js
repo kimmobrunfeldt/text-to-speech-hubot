@@ -39,16 +39,16 @@ function bashEscape(arg) {
 
 
 function say(text) {
-    var safeMessage = bashEscape(msg);
-    var command;
-    text = text.replace('ö', 'o').replace('ä', 'a');
+    var safeMessage = bashEscape(text);
+    safeMessage.replace(/ö/g, 'o');
+    safeMessage.replace(/ä/g, 'a');
 
     if (process.env.HUBOT_SPEECH_ENGINE === 'espeak') {
         command = 'espeak -ven+f3 -k5 -s150 "' + safeMessage + '"';
     } else if (process.env.HUBOT_SPEECH_ENGINE === 'festival') {
         command = 'echo "' + safeMessage + '" | festival --tts';
     } else if (process.env.HUBOT_SPEECH_ENGINE === 'google') {
-        command = './speech.sh "' + safeMessage + '"';
+        command = '/bin/bash scripts/speech.sh ' + safeMessage;
     } else {
         msg.send("Unknown speech engine.");
     }
@@ -58,7 +58,7 @@ function say(text) {
 
 module.exports = function(robot) {
     robot.hear(/SAY (.*)$/i, function(msg) {
-        say(msg);
+        say(msg.match[1]);
     });
 
     robot.hear(/(.*)$/i, function(msg) {
