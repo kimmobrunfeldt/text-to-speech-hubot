@@ -1,33 +1,5 @@
-# Spotify Hubot
+# Text-to-speech hubot
 
-This bot listens for all spotify links in Flowdock and adds them to a Spotify playlist.
-
-You need:
-
-* Heroku account
-* NodeJS 'n stuff
-* Spotify premium account
-
-
-This bot uses [Flowdock adapter](https://github.com/flowdock/hubot-flowdock). First configure Hubot with its adapters and get it responding to something and then proceed with these instructions:
-
-Copy your spotify appkey to the base of the repository named as `spotify_appkey.key`. Get application key from here: https://developer.spotify.com/technologies/libspotify/#application-keys (choose binary, not C-code).
-
-Add following environment variables to heroku:
-
-    heroku config:add HUBOT_SPOTIFY_APPKEY=`node appkey-to-base64.js`
-    heroku config:add HUBOT_SPOTIFY_USERNAME=username
-    heroku config:add HUBOT_SPOTIFY_PASSWORD=password
-    heroku config:add HUBOT_SPOTIFY_PLAYLIST=spotify:user:myusername:playlist:7sXq7x8V17JIRzYJKw5v9o
-
-
-Use this buildpack: https://github.com/ddollar/heroku-buildpack-multi
-and it will use [.buildpacks](.buildpacks) file to use multiple buildpacks at the same time
-
-
-## Spotify specific stuff
-
-node-spotify uses libspotify underneath. Installing to OSX: `brew install libspotify`
 
 # Hubot in general
 

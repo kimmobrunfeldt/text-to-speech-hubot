@@ -10,6 +10,8 @@
 
 var sys = require('sys');
 var exec = require('child_process').exec;
+var _ = require('lodash');
+
 function puts(error, stdout, stderr) { sys.puts(stdout); }
 
 
@@ -43,6 +45,8 @@ function say(text) {
     safeMessage.replace(/ö/g, 'o');
     safeMessage.replace(/ä/g, 'a');
 
+    console.log('Using engine:', process.env.HUBOT_SPEECH_ENGINE);
+    console.log('Speaking message:', text);
     if (process.env.HUBOT_SPEECH_ENGINE === 'espeak') {
         command = 'espeak -ven+f3 -k5 -s150 "' + safeMessage + '"';
     } else if (process.env.HUBOT_SPEECH_ENGINE === 'festival') {
@@ -58,15 +62,16 @@ function say(text) {
 
 module.exports = function(robot) {
     robot.hear(/SAY (.*)$/i, function(msg) {
+        console.log(msg.message.user.name, 'called say');
         say(msg.match[1]);
     });
 
     robot.hear(/(.*)$/i, function(msg) {
-        var name = msg.message.user.name.toLowecase();
+        var name = msg.message.user.name.toLowerCase();
 
-        console.log(name);
-        if (_.contains(process.env.HUBOT_LISTEN_NAME, name)) {
-            say(msg);
+        if (_.contains(name, process.env.HUBOT_LISTEN_NAME.toLowerCase())) {
+            console.log(msg.message.user.name, 'is the one to listen');
+            say(msg.match[1]);
         }
     });
 };
